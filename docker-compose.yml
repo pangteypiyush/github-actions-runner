@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  github-runner:
+    privileged: true
+    image: pangteypiyush/github-actions-runner:latest
+    env_file:
+      - env.sample
