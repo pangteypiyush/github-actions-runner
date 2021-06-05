@@ -6,6 +6,7 @@ LABEL org.opencontainers.image.source=https://github.com/pangteypiyush/github-ac
 LABEL org.opencontainers.image.description="Github Actions runner with its own Docker daemon"
 
 ARG YARN_VERSION=1.22.10
+ARG GO_VERSION=1.16.5
 
 RUN apt-get update \
   && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
@@ -29,6 +30,11 @@ RUN wget -q "https://github.com/yarnpkg/yarn/releases/download/v$YARN_VERSION/ya
   && tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/ \
   && rm yarn-v$YARN_VERSION.tar.gz
 ENV PATH=$PATH:/opt/yarn-v$YARN_VERSION/bin
+
+RUN wget -q "https://golang.org/dl/go$GO_VERSION.linux-amd64.tar.gz" \
+  && tar -xzf go$GO_VERSION.linux-amd64.tar.gz -C /opt/ \
+  && rm go$GO_VERSION.linux-amd64.tar.gz
+ENV PATH=$PATH:/opt/go/bin
 
 COPY /entrypoint-wrapper.sh /
 ENTRYPOINT ["/entrypoint-wrapper.sh"]
