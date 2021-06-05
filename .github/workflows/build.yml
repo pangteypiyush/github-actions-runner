@@ -17,14 +17,9 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.DOCKER_PAT }}
 
-      - id: ver
-        run: |
-          echo "::set-output name=VERSION::$(date '+%y.%m.%d')"
-
       - name: Build and push images
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: |
             ${{ github.repository_owner }}/github-actions-runner:latest
-            ${{ github.repository_owner }}/github-actions-runner:${{ steps.ver.outputs.VERSION }}
