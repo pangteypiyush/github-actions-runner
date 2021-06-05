@@ -21,14 +21,14 @@ RUN apt-get update \
        libicu-dev \
        autoconf \
        automake \
-  && curl -fsSLO --compressed "https://github.com/yarnpkg/yarn/releases/download/v$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz" \
-  && tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/ \
-  && ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn \
-  && ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg \
-  && rm yarn-v$YARN_VERSION.tar.gz \
   && ln -s /usr/bin/node /usr/local/bin/nodejs \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/*
+
+RUN wget -q "https://github.com/yarnpkg/yarn/releases/download/v$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz" \
+  && tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/ \
+  && rm yarn-v$YARN_VERSION.tar.gz
+ENV PATH=$PATH:/opt/yarn-v$YARN_VERSION/bin
 
 COPY /entrypoint-wrapper.sh /
 ENTRYPOINT ["/entrypoint-wrapper.sh"]
