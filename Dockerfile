@@ -7,6 +7,7 @@ LABEL org.opencontainers.image.description="Github Actions runner with its own D
 
 ARG YARN_VERSION=1.22.10
 ARG GO_VERSION=1.16.5
+ARG TERRAFROM_VERSION=0.15.5
 
 RUN apt-get update \
   && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
@@ -35,6 +36,10 @@ RUN wget -q "https://golang.org/dl/go$GO_VERSION.linux-amd64.tar.gz" \
   && tar -xzf go$GO_VERSION.linux-amd64.tar.gz -C /opt/ \
   && rm go$GO_VERSION.linux-amd64.tar.gz
 ENV PATH=$PATH:/opt/go/bin
+
+RUN wget -q "https://releases.hashicorp.com/terraform/$TERRAFROM_VERSION/terraform_${TERRAFROM_VERSION}_linux_amd64.zip" \
+  && unzip terraform_${TERRAFROM_VERSION}_linux_amd64.zip -d /usr/local/bin/ \
+  && rm terraform_${TERRAFROM_VERSION}_linux_amd64.zip
 
 COPY /entrypoint-wrapper.sh /
 ENTRYPOINT ["/entrypoint-wrapper.sh"]
