@@ -23,6 +23,16 @@ RUN apt-get update \
        libicu-dev \
        autoconf \
        automake \
+       libfontconfig1 \
+       libfreetype6 \
+       libltdl7 \
+       libsnmp35 \
+       libmagickwand-6.q16-6 \
+       libmagickcore-6.q16-6 \
+       imagemagick \
+       liblcms2-2 \
+       liblqr-1-0 \
+       libfftw3-double3 \
   && ln -s /usr/bin/node /usr/local/bin/nodejs \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/*
