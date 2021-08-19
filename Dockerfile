@@ -5,9 +5,9 @@ LABEL org.opencontainers.image.url=https://github.com/pangteypiyush/github-actio
 LABEL org.opencontainers.image.source=https://github.com/pangteypiyush/github-actions-runner
 LABEL org.opencontainers.image.description="Github Actions runner with its own Docker daemon"
 
-ARG YARN_VERSION=1.22.10
-ARG GO_VERSION=1.16.5
-ARG TERRAFROM_VERSION=0.15.5
+ARG YARN_VERSION=1.22.11
+ARG GO_VERSION=1.17
+ARG TERRAFROM_VERSION=1.0.5
 
 RUN apt-get update \
   && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
