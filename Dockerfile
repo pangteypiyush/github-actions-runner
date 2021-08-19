@@ -9,7 +9,7 @@ ARG YARN_VERSION=1.22.11
 ARG GO_VERSION=1.17
 ARG TERRAFROM_VERSION=1.0.5
 
-RUN apt-get update \
+RUN set -xe; apt-get update \
   && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
   && apt-get install -y --no-install-recommends \
        fuse-overlayfs \
@@ -37,19 +37,22 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/*
 
-RUN wget -q "https://github.com/yarnpkg/yarn/releases/download/v$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz" \
-  && tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/ \
-  && rm yarn-v$YARN_VERSION.tar.gz
 ENV PATH=$PATH:/opt/yarn-v$YARN_VERSION/bin
+RUN set -xe; wget -q "https://github.com/yarnpkg/yarn/releases/download/v$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz" \
+  && tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/ \
+  && rm yarn-v$YARN_VERSION.tar.gz \
+  && yarn --version
 
-RUN wget -q "https://golang.org/dl/go$GO_VERSION.linux-amd64.tar.gz" \
-  && tar -xzf go$GO_VERSION.linux-amd64.tar.gz -C /opt/ \
-  && rm go$GO_VERSION.linux-amd64.tar.gz
 ENV PATH=$PATH:/opt/go/bin
+RUN set -xe; wget -q "https://golang.org/dl/go$GO_VERSION.linux-amd64.tar.gz" \
+  && tar -xzf go$GO_VERSION.linux-amd64.tar.gz -C /opt/ \
+  && rm go$GO_VERSION.linux-amd64.tar.gz \
+  && go version
 
-RUN wget -q "https://releases.hashicorp.com/terraform/$TERRAFROM_VERSION/terraform_${TERRAFROM_VERSION}_linux_amd64.zip" \
+RUN set -xe; wget -q "https://releases.hashicorp.com/terraform/$TERRAFROM_VERSION/terraform_${TERRAFROM_VERSION}_linux_amd64.zip" \
   && unzip terraform_${TERRAFROM_VERSION}_linux_amd64.zip -d /usr/local/bin/ \
-  && rm terraform_${TERRAFROM_VERSION}_linux_amd64.zip
+  && rm terraform_${TERRAFROM_VERSION}_linux_amd64.zip \
+  && terraform version
 
 COPY /entrypoint-wrapper.sh /
 ENTRYPOINT ["/entrypoint-wrapper.sh"]
