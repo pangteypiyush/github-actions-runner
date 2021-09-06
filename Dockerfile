@@ -33,6 +33,7 @@ RUN set -xe; apt-get update \
        liblcms2-2 \
        liblqr-1-0 \
        libfftw3-double3 \
+       libsodium-dev \
   && ln -s /usr/bin/node /usr/local/bin/nodejs \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/*
